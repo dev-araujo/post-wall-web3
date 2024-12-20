@@ -13,8 +13,7 @@ docs/
 # Dotenv file
 .env
 
-# Dependencies
-lib/
+
 
 # OS Generated Files
 .DS_Store

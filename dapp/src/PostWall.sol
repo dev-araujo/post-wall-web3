@@ -1,27 +1,24 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.17;
 
 contract PostWall {
-    struct Message {
-        address sender;
-        string text;
+    struct Post {
+        address author;
+        string message;
         uint256 timestamp;
     }
 
-    Message[] public messages;
+    Post[] public posts;
 
-    event NewMessage(address indexed sender, string text, uint256 timestamp);
+    event PostCreated(address indexed author, string message, uint256 timestamp);
 
-    function sendMessage(string memory _text) public {
-        require(bytes(_text).length > 0, "Message cannot be empty");
-
-        Message memory newMessage = Message(msg.sender, _text, block.timestamp);
-        messages.push(newMessage);
-
-        emit NewMessage(msg.sender, _text, block.timestamp);
+    function createPost(string memory _message) public {
+        require(bytes(_message).length > 0, "Message cannot be empty");
+        posts.push(Post(msg.sender, _message, block.timestamp));
+        emit PostCreated(msg.sender, _message, block.timestamp);
     }
 
-    function getMessages() public view returns (Message[] memory) {
-        return messages;
+    function getPosts() public view returns (Post[] memory) {
+        return posts;
     }
 }

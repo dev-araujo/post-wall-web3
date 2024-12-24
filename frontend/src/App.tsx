@@ -1,105 +1,90 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import PostWall from "./abi/PostWall.json";
 import { ethers } from "ethers";
 
-const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS;
-const SEPOLIA_CONTRACT_ADDRESS = import.meta.env.SEPOLIA_CONTRACT_ADDRESS;
+const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
+const provider = new ethers.providers.JsonRpcProvider(
+  import.meta.env.VITE_SEPOLIA_CONTRACT_ADDRESS
+);
+const contract = new ethers.Contract(contractAddress, PostWall.abi, provider);
 
-const App: React.FC = () => {
-  const [provider, setProvider] =
-    useState<ethers.providers.Web3Provider | null>(null);
-  const [contract, setContract] = useState<ethers.Contract | null>(null);
-  const [account, setAccount] = useState<string | null>(null);
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
+function App() {
+  const [message, setMessage] = useState("");
+  const [posts, setPosts] = useState([]);
+  const [account, setAccount] = useState("");
 
   useEffect(() => {
-    const initProvider = async () => {
-      if (window.ethereum) {
-        const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
-        setProvider(web3Provider);
-
-        const readOnlyProvider = new ethers.providers.JsonRpcProvider(
-          SEPOLIA_CONTRACT_ADDRESS 
-        );
-        const readOnlyContract = new ethers.Contract(
-          CONTRACT_ADDRESS,
-          PostWall.abi,
-          readOnlyProvider
-        );
-        setContract(readOnlyContract);
-
-        const fetchedMessages = await readOnlyContract.getMessages();
-        setMessages(fetchedMessages);
-      } else {
-        console.error("MetaMask is not installed");
-      }
-    };
-    initProvider();
+    fetchPosts();
   }, []);
 
-  const connectWallet = async () => {
-    if (!provider) return;
-    try {
-      const accounts = await provider.send("eth_requestAccounts", []);
-      setAccount(accounts[0]);
-      const signer = provider.getSigner();
+  const fetchPosts = async () => {
+    const fetchedPosts = await contract.getPosts();
+    setPosts(fetchedPosts);
+  };
 
-      const postWallContract = new ethers.Contract(
-        CONTRACT_ADDRESS,
-        PostWall.abi,
-        signer
-      );
-      setContract(postWallContract);
-    } catch (error) {
-      console.error("Error connecting wallet:", error);
+  const connectWallet = async () => {
+    if (window.ethereum) {
+      try {
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        setAccount(accounts[0]);
+      } catch (error) {
+        console.error("Error connecting to wallet:", error);
+      }
+    } else {
+      alert("Please install MetaMask!");
     }
   };
 
-  const handleSendMessage = async () => {
-    if (!contract || !account) return;
-    try {
-      const tx = await contract.sendMessage(newMessage);
-      await tx.wait();
-      const updatedMessages = await contract.getMessages();
-      setMessages(updatedMessages);
-      setNewMessage("");
-    } catch (error) {
-      console.error("Error sending message:", error);
+  const createPost = async () => {
+    if (!account) {
+      await connectWallet();
     }
+    const signer = new ethers.providers.Web3Provider(
+      window.ethereum
+    ).getSigner();
+    const contractWithSigner = contract.connect(signer);
+    try {
+      const tx = await contractWithSigner.createPost(message);
+      await tx.wait();
+      fetchPosts();
+      setMessage("");
+    } catch (error) {
+      console.error("Error creating post:", error);
+    }
+  };
+
+  const formatTimestamp = (timestamp: any) => {
+    const date = new Date(timestamp * 1000);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${day}/${month}/${year} - ${hours}:${minutes}`;
   };
 
   return (
-    <div>
-      <h1>Decentralized Post Wall</h1>
-      {!account ? (
-        <button onClick={connectWallet}>Connect Wallet</button>
-      ) : (
-        <p>Connected as: {account}</p>
-      )}
-      <div>
-        {messages.map((msg: any, index) => (
-          <div key={index}>
-            <p>
-              <strong>{msg.sender}</strong>: {msg.text} <br />
-              <em>{new Date(msg.timestamp * 1000).toLocaleString()}</em>
-            </p>
-          </div>
+    <div className="App">
+      {!account && <button onClick={connectWallet}>Connect Wallet</button>}
+      <h1>Post Wall</h1>
+      <input
+        type="text"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+      <button disabled={!account} onClick={createPost}>Post</button>
+      <ul>
+        {posts.map((post: any, index) => (
+          <li key={index}>
+            {post.message} - {post.author} - {formatTimestamp(post.timestamp)}
+          </li>
         ))}
-      </div>
-      {account && (
-        <>
-          <textarea
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Write your message..."
-          />
-          <button onClick={handleSendMessage}>Send Message</button>
-        </>
-      )}
+      </ul>
     </div>
   );
-};
+}
 
 export default App;

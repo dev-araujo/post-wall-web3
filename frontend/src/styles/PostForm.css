@@ -40,7 +40,7 @@
 .post-form form .post-form__button:disabled  {
   background-color: var(--color-background-secondary) !important;
   cursor: default;
-  color: var(--color-textlack);
+  color: var(--color-text-light);
 }
 
 .post-form__input--error {

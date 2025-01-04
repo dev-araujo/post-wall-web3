@@ -23,7 +23,7 @@ function App() {
   }, []);
 
   const checkAccount = () => {
-    const storageAccount = localStorage.getItem("account");
+    const storageAccount = sessionStorage.getItem("account");
     setAccount(storageAccount);
   };
 
@@ -44,7 +44,7 @@ function App() {
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
-        localStorage.setItem("account", accounts[0]);
+        sessionStorage.setItem("account", accounts[0]);
         setAccount(accounts[0]);
       } catch (error) {
         console.error("Error connecting to wallet:", error);
@@ -52,6 +52,8 @@ function App() {
     } else {
       alert("Please install MetaMask!");
     }
+  
+
   };
 
   const createPost = async (message: any) => {

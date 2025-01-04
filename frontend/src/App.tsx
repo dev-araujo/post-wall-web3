@@ -1,5 +1,9 @@
+import "./styles/App.css";
+
+import { ConnectWalletButton, PostForm, PostList } from "./components";
 import { useEffect, useState } from "react";
 
+import { Post } from "./interfaces";
 import PostWall from "./abi/PostWall.json";
 import { ethers } from "ethers";
 
@@ -10,17 +14,28 @@ const provider = new ethers.providers.JsonRpcProvider(
 const contract = new ethers.Contract(contractAddress, PostWall.abi, provider);
 
 function App() {
-  const [message, setMessage] = useState("");
-  const [posts, setPosts] = useState([]);
-  const [account, setAccount] = useState("");
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [account, setAccount] = useState<string | null>("");
 
   useEffect(() => {
     fetchPosts();
+    checkAccount();
   }, []);
 
+  const checkAccount = () => {
+    const storageAccount = localStorage.getItem("account");
+    setAccount(storageAccount);
+  };
+
   const fetchPosts = async () => {
-    const fetchedPosts = await contract.getPosts();
-    setPosts(fetchedPosts);
+    try {
+      const fetchedPosts = await contract.getPosts();
+
+      setPosts(fetchedPosts);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      setPosts([]);
+    }
   };
 
   const connectWallet = async () => {
@@ -29,6 +44,7 @@ function App() {
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
+        localStorage.setItem("account", accounts[0]);
         setAccount(accounts[0]);
       } catch (error) {
         console.error("Error connecting to wallet:", error);
@@ -38,7 +54,7 @@ function App() {
     }
   };
 
-  const createPost = async () => {
+  const createPost = async (message: any) => {
     if (!account) {
       await connectWallet();
     }
@@ -50,39 +66,39 @@ function App() {
       const tx = await contractWithSigner.createPost(message);
       await tx.wait();
       fetchPosts();
-      setMessage("");
     } catch (error) {
       console.error("Error creating post:", error);
     }
   };
 
-  const formatTimestamp = (timestamp: any) => {
-    const date = new Date(timestamp * 1000);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    return `${day}/${month}/${year} - ${hours}:${minutes}`;
-  };
-
   return (
-    <div className="App">
-      {!account && <button onClick={connectWallet}>Connect Wallet</button>}
-      <h1>Post Wall</h1>
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
-      <button disabled={!account} onClick={createPost}>Post</button>
-      <ul>
-        {posts.map((post: any, index) => (
-          <li key={index}>
-            {post.message} - {post.author} - {formatTimestamp(post.timestamp)}
-          </li>
-        ))}
-      </ul>
+    <div className="app">
+      <section className="testimonial">
+        <header className="testimonial__header">
+          <h1 className="testimonial__title">Post Wall</h1>
+          <h2 className="testimonial__subtitle">
+            Hear From What Our Satisfied Clients Have To Say ❤️
+          </h2>
+        </header>
+
+        <div className="testimonial__body">
+          <div className="testimonial__image">
+            <span className="testimonial__image-label">{posts.length}</span>
+          </div>
+
+          <div className="testimonial__posts">
+            <PostList posts={posts} />
+          </div>
+        </div>
+
+        <footer className="testimonial__footer">
+          {account && <PostForm account={account} createPost={createPost} />}
+          <ConnectWalletButton
+            account={account}
+            connectWallet={connectWallet}
+          />
+        </footer>
+      </section>
     </div>
   );
 }

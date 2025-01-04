@@ -14,8 +14,10 @@ const provider = new ethers.providers.JsonRpcProvider(
 const contract = new ethers.Contract(contractAddress, PostWall.abi, provider);
 
 function App() {
+ 
   const [posts, setPosts] = useState<Post[]>([]);
   const [account, setAccount] = useState<string | null>("");
+  
 
   useEffect(() => {
     fetchPosts();
@@ -52,8 +54,6 @@ function App() {
     } else {
       alert("Please install MetaMask!");
     }
-  
-
   };
 
   const createPost = async (message: any) => {

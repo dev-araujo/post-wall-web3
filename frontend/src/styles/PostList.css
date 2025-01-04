@@ -13,11 +13,12 @@
   padding: var(--spacing-unit);
   margin-bottom: var(--spacing-unit);
   border-radius: 5px;
+  height:fit-content;
 }
 
 .post-list__item-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-bottom: 5px;
 }
@@ -33,7 +34,6 @@
 }
 
 .post-list__item-author {
-  font-weight: 600;
   color: var(--color-text);
   font-size: var(--font-size-small);
 }
@@ -47,4 +47,5 @@
   font-size: var(--font-size-base);
   color: var(--color-text);
   margin-bottom: 5px;
+  font-weight:600;
 }

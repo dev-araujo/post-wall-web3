@@ -66,6 +66,7 @@
   width: 50%;
   max-height:411px;
   overflow: auto;
+  padding-right:6px;
 }
 
 .testimonial__footer {

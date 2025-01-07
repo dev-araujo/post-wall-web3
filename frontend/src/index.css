@@ -1,6 +1,11 @@
 /* Roboto*/
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
-
+/* Montserrat */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&display=swap");
+/* Garamond */
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap");
+/* inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 :root {
   --color-primary: #78c2ad;
   --color-error: rgba(243, 76, 34, 0.418);
@@ -17,10 +22,11 @@
   --font-size-base: 16px;
   --font-size-large: 24px;
   --font-size-small: 12px;
+  --font-family-default: "Inter", serif;
 }
 
 body {
-  font-family: "Roboto", serif;
+  font-family: var(--font-family-default);
   letter-spacing: 0.5px;
   background-color: #f5f5f5;
   margin: 0;

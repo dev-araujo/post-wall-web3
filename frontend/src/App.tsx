@@ -1,6 +1,6 @@
 import "./styles/App.css";
 
-import { ConnectWalletButton, PostForm, PostList } from "./components";
+import { ConnectWalletButton, PostForm, PostList, Skeleton } from "./components";
 import { useEffect, useState } from "react";
 
 import { Post } from "./interfaces";
@@ -30,6 +30,7 @@ function App() {
   };
 
   const fetchPosts = async () => {
+    setPosts([]);
     try {
       const fetchedPosts = await contract.getPosts();
 
@@ -89,7 +90,11 @@ function App() {
           </div>
 
           <div className="testimonial__posts">
-            <PostList posts={posts} />
+            {posts.length > 0 ? (
+              <PostList posts={posts} />
+            ) : (
+              <Skeleton height={"411px"} width={"400px"} />
+            )}
           </div>
         </div>
 

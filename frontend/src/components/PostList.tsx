@@ -8,44 +8,6 @@ import { useState } from "react";
 function PostList({ posts }: PostListProps) {
   const [copiedAddress, setCopiedAddress] = useState<string | null>(null);
 
-  const mock = [
-    {
-      timestamp: 1735997096,
-      author: "",
-      message:
-        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. ",
-    },
-    {
-      timestamp: 1735997096,
-      author: "",
-      message: "",
-    },
-    {
-      timestamp: 1735997096,
-      author: "",
-      message: "",
-    },
-    {
-      timestamp: 1735997096,
-      author: "",
-      message: "",
-    },
-    {
-      timestamp: 1735997096,
-      author: "",
-      message: "",
-    },
-    {
-      timestamp: 1735997096,
-      author: "",
-      message: "",
-    },
-  ];
-
-  const teste = () => {
-    console.log(copiedAddress);
-  };
-
   return (
     <div className="post-list">
       <ul className="post-list__items">

@@ -1,8 +1,14 @@
 import "./styles/App.css";
 
-import { ConnectWalletButton, PostForm, PostList, Skeleton } from "./components";
+import {
+  ConnectWalletButton,
+  PostForm,
+  PostList,
+  Skeleton,
+} from "./components";
 import { useEffect, useState } from "react";
 
+import EnterPriseIcon from "./assets/enterprise-icon.svg";
 import { Post } from "./interfaces";
 import PostWall from "./abi/PostWall.json";
 import { ethers } from "ethers";
@@ -14,10 +20,8 @@ const provider = new ethers.providers.JsonRpcProvider(
 const contract = new ethers.Contract(contractAddress, PostWall.abi, provider);
 
 function App() {
- 
   const [posts, setPosts] = useState<Post[]>([]);
   const [account, setAccount] = useState<string | null>("");
-  
 
   useEffect(() => {
     fetchPosts();
@@ -78,10 +82,17 @@ function App() {
     <div className="app">
       <section className="testimonial">
         <header className="testimonial__header">
-          <h1 className="testimonial__title">Post Wall</h1>
-          <h2 className="testimonial__subtitle">
-            Hear From What Our Satisfied Clients Have To Say ❤️
-          </h2>
+          <div className="testimonial__enterprise-name">
+            <img src={EnterPriseIcon} alt="enterprise icon" />
+            <h1 className="testimonial__title">Post Wall</h1>
+          </div>
+          <div className="testimonial__enterprise-motto">
+            <h1>Hear From Our Community</h1>
+            <i>
+              What our users are saying about our community{" "}
+              <strong>web3</strong> in <strong>web3</strong>
+            </i>
+          </div>
         </header>
 
         <div className="testimonial__body">

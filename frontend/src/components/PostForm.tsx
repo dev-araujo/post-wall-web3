@@ -6,12 +6,20 @@ import { useState } from "react";
 function PostForm({ account, createPost }: PostFormProps) {
   const CHARACTERLIMIT = 215;
   const [message, setMessage] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (message.trim() !== "") {
-      await createPost(message);
-      setMessage("");
+      setIsSubmitting(true);
+      try {
+        await createPost(message);
+        setMessage("");
+      } catch (error) {
+        console.error("Erro ao enviar o post:", error);
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -21,9 +29,9 @@ function PostForm({ account, createPost }: PostFormProps) {
       : "post-form__input";
   };
 
-   const enableButton = () => {
-     return account && message.length > 0  && message.length < CHARACTERLIMIT;
-   };
+  const enableButton = () => {
+    return account && message.length > 0 && message.length < CHARACTERLIMIT;
+  };
 
   return (
     <div className="post-form">
@@ -32,9 +40,10 @@ function PostForm({ account, createPost }: PostFormProps) {
           <input
             maxLength={CHARACTERLIMIT}
             className={getInputClassName()}
-            placeholder="Write your testimonial here..."
+            placeholder="Escreva seu depoimento aqui..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            disabled={isSubmitting}
           />
           {message.length === CHARACTERLIMIT && (
             <p className="post-form__error-message">
@@ -46,9 +55,9 @@ function PostForm({ account, createPost }: PostFormProps) {
         <button
           className="post-form__button"
           type="submit"
-          disabled={!enableButton()}
+          disabled={!enableButton() || isSubmitting}
         >
-          Post
+          {isSubmitting ? "Sending..." : "Post"}
         </button>
       </form>
     </div>

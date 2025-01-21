@@ -14,7 +14,6 @@
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   width: 80%;
   max-width: 900px;
-
 }
 
 .testimonial__header {
@@ -24,9 +23,21 @@
   padding: var(--spacing-double);
   border-bottom: 1px solid var(--color-border);
 }
+.testimonial__header .testimonial__enterprise-name {
+  display: flex;
+  align-items: center;
+}
 
+.testimonial__header .testimonial__enterprise-motto {
+  text-align: right;
+  height: 80px;
+}
+.testimonial__header img {
+  width: 24px;
+  height: 24px;
+}
 .testimonial__title {
-  margin: 0;
+  margin-left: 14px;
   font-size: var(--font-size-large);
 }
 
@@ -49,10 +60,9 @@
   display: flex;
   justify-content: end;
   align-items: flex-end;
-  background-image: url('https://www.shutterstock.com/image-vector/decentralized-finance-vector-concept-illustration-600nw-2048324633.jpg');
+  background-image: url("../assets/background-postwall.png");
   background-size: cover;
   background-position: center;
- 
 }
 
 .testimonial__image-label {
@@ -65,9 +75,9 @@
 
 .testimonial__posts {
   width: 50%;
-  max-height:411px;
+  max-height: 411px;
   overflow: auto;
-  padding-right:6px;
+  padding-right: 6px;
 }
 
 .testimonial__footer {

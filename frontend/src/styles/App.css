@@ -81,6 +81,14 @@
 }
 
 .testimonial__footer {
+  display: flex;
+  padding: var(--spacing-double);
+  border-top: 1px solid var(--color-border);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.connected {
   padding: var(--spacing-double);
   border-top: 1px solid var(--color-border);
 }

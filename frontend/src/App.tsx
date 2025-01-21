@@ -109,8 +109,14 @@ function App() {
           </div>
         </div>
 
-        <footer className="testimonial__footer">
+        <footer className={account ? "connected" : "testimonial__footer"}>
           {account && <PostForm account={account} createPost={createPost} />}
+          {!account && (
+            <span>
+              Conecte-se sua wallet na Rede Sepolia Testnet para enviar sua
+              mensagem 😊
+            </span>
+          )}
           <ConnectWalletButton
             account={account}
             connectWallet={connectWallet}

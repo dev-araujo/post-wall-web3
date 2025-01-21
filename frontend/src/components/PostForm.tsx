@@ -40,7 +40,7 @@ function PostForm({ account, createPost }: PostFormProps) {
           <input
             maxLength={CHARACTERLIMIT}
             className={getInputClassName()}
-            placeholder="Escreva seu depoimento aqui..."
+            placeholder="Write your testimonial here..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             disabled={isSubmitting}

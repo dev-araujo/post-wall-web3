@@ -113,8 +113,7 @@ function App() {
           {account && <PostForm account={account} createPost={createPost} />}
           {!account && (
             <span>
-              Conecte-se sua wallet na Rede Sepolia Testnet para enviar sua
-              mensagem 😊
+              Connect your wallet to the Sepolia Testnet to send your message 😊
             </span>
           )}
           <ConnectWalletButton

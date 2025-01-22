@@ -47,7 +47,7 @@ function PostForm({ account, createPost }: PostFormProps) {
           />
           {message.length === CHARACTERLIMIT && (
             <p className="post-form__error-message">
-              O limite de caracteres é de <strong>{CHARACTERLIMIT}</strong>
+              The character limit is <strong>{CHARACTERLIMIT}</strong>
             </p>
           )}
         </section>

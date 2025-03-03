@@ -37,7 +37,6 @@ function App() {
     setPosts([]);
     try {
       const fetchedPosts = await contract.getPosts();
-
       setPosts(fetchedPosts);
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -48,6 +47,8 @@ function App() {
   const connectWallet = async () => {
     if (window.ethereum) {
       try {
+        await switchToSepoliaNetwork();
+
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
@@ -57,7 +58,45 @@ function App() {
         console.error("Error connecting to wallet:", error);
       }
     } else {
-      alert("Please install MetaMask!");
+      alert("Por favor, instale o MetaMask!");
+    }
+  };
+
+  const switchToSepoliaNetwork = async () => {
+    try {
+      const sepoliaChainId = "0xaa36a7";
+
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: sepoliaChainId }],
+      });
+    } catch (switchError: any) {
+      if (switchError.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: "0xaa36a7",
+                chainName: "Sepolia Test Network",
+                rpcUrls: [
+                  "https://sepolia.infura.io/v3/YOUR_INFURA_PROJECT_ID",
+                ],
+                nativeCurrency: {
+                  name: "Sepolia Ether",
+                  symbol: "ETH",
+                  decimals: 18,
+                },
+                blockExplorerUrls: ["https://sepolia.etherscan.io"],
+              },
+            ],
+          });
+        } catch (addError) {
+          console.error("Erro ao adicionar a rede Sepolia:", addError);
+        }
+      } else {
+        console.error("Erro ao mudar para a rede Sepolia:", switchError);
+      }
     }
   };
 
@@ -113,7 +152,7 @@ function App() {
           {account && <PostForm account={account} createPost={createPost} />}
           {!account && (
             <span>
-              Connect your wallet to the Sepolia Testnet to send your message 😊
+              Conecte sua carteira à Sepolia Testnet para enviar sua mensagem 😊
             </span>
           )}
           <ConnectWalletButton

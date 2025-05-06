@@ -42,6 +42,6 @@ O resultado pode ser conferido ➡️ [**AQUI**](https://post-wall-iota.vercel.a
 
 
 
-[![linkedin](https://media.licdn.com/dms/image/v2/D4D03AQFdtLzMPGq-iA/profile-displayphoto-shrink_200_200/B4DZXYBptVG8AY-/0/1743086067092?e=1749081600&v=beta&t=f3BTl84h34Tyak_VLwTjwH1ckx1jM_SrC7mGewpzMA4)](https://www.linkedin.com/in/araujocode/)
+[![linkedin](https://media.licdn.com/dms/image/v2/D4D03AQECqr5B1AId3g/profile-displayphoto-shrink_200_200/B4DZaBjygMG4Ag-/0/1745930365293?e=1752105600&v=beta&t=snobVRlYH3Soz40jdwWhyy8Nw4WqN501wVjiuxWl56s)](https://www.linkedin.com/in/araujocode/)
 
 [Adriano P Araujo](https://www.linkedin.com/in/araujocode/)

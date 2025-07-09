@@ -27,7 +27,7 @@ O resultado pode ser conferido ➡️ [**AQUI**](https://post-wall-iota.vercel.a
 ## Rodando local
 
 - [Frontend](./frontend/README.md)
-- [Backend](./dapp/README.md)
+- [dApp](./dapp/README.md)
 
 ## Considerações
 

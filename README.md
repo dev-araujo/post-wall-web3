@@ -38,10 +38,12 @@ O resultado pode ser conferido ➡️ [**AQUI**](https://post-wall-iota.vercel.a
 
 ---
 
-#### Autor 👷
 
 
 
-[![linkedin](https://media.licdn.com/dms/image/v2/D4D03AQECqr5B1AId3g/profile-displayphoto-shrink_200_200/B4DZaBjygMG4Ag-/0/1745930365293?e=1752105600&v=beta&t=snobVRlYH3Soz40jdwWhyy8Nw4WqN501wVjiuxWl56s)](https://www.linkedin.com/in/araujocode/)
+## Author 👷
 
-[Adriano P Araujo](https://www.linkedin.com/in/araujocode/)
+<img src="https://user-images.githubusercontent.com/97068163/149033991-781bf8b6-4beb-445a-913c-f05a76a28bfc.png" width="10%" alt="caricatura do autor desse repositório"/>
+
+**Adriano P Araujo**  
+  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white&style=for-the-badge)](https://www.linkedin.com/in/araujocode/) [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white&style=for-the-badge)](https://github.com/seu-usuario)
